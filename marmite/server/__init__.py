@@ -26,7 +26,7 @@ db = SQLAlchemy(app)
 # Initialize Marshmallow
 ma = Marshmallow(app)
 
-import server.recipes
-from server.recipes.controllers import recipe
+import marmite.server.recipes
+from marmite.server.recipes.controllers import recipe
 
 app.register_blueprint(recipe)

@@ -2,7 +2,7 @@
 
 from __future__ import with_statement, print_function, absolute_import
 
-from server import app
+from marmite.server import app
 
 if __name__ == '__main__':
     app.run(debug=app.config.get('DEBUG'))
