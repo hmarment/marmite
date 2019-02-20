@@ -31,10 +31,13 @@ ma = Marshmallow(app)
 import marmite.server.recipes
 from marmite.server.recipes.controllers import recipe
 
-# Flush database first
-db.drop_all()
+# # Flush database first
+# db.drop_all()
 
 # Create the database
 db.create_all()
+
+# Add custom CLI commands
+import marmite.cli.cli
 
 app.register_blueprint(recipe)

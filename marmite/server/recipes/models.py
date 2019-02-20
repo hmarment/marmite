@@ -11,6 +11,7 @@ class Recipe(db.Model):
     __tablename__ = "recipe"
 
     id = db.Column(db.Integer, primary_key=True)
+    external_id = db.Column(db.VARCHAR)
     name = db.Column(db.String(length=255))
     source = db.Column(db.String(length=255))
     url = db.Column(db.VARCHAR)

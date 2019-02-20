@@ -25,7 +25,8 @@ def sync_guardian_recipes():
     app.logger.debug(recipes)
     app.logger.info('Writing {} recipes to DB'.format(len(recipes)))
     for recipe in recipes:
-        r = Recipe(name=recipe.headline,
+        r = Recipe(external_id=recipe.id,
+                   name=recipe.headline,
                    source='guardian.co.uk',
                    url=recipe.shortUrl,
                    body=recipe.bodyText,
