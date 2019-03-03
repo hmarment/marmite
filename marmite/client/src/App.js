@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
+// import logo from './logo.svg';
+import 'bootstrap/dist/css/bootstrap.css';
 import './App.css';
+import Container from 'react-bootstrap/Container';
+import Navbar from 'react-bootstrap/Navbar';
 import Feed from './components/Feed';
 
 import axios from 'axios';
@@ -27,11 +30,20 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <header>
-          <h1> Marmite </h1>
-          <h3> You Either Love It or Hate It. </h3>
-        </header>
-        <Feed recipes={this.state.recipes}/>
+      <Container>
+        <Navbar bg="dark" variant="dark">
+          <Navbar.Brand href="#home">Marmite</Navbar.Brand>
+          <Navbar.Toggle />
+          <Navbar.Collapse className="justify-content-end">
+            <Navbar.Text>
+              <i>You Either Love It Or Hate It.</i>
+            </Navbar.Text>
+          </Navbar.Collapse>
+          </Navbar>
+          <div>
+            <Feed recipes={this.state.recipes}/>
+          </div>
+        </Container>
       </div>
     );
   }
