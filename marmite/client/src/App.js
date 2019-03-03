@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
+import Feed from './components/Feed';
 
 import axios from 'axios';
 
@@ -8,6 +9,9 @@ class App extends Component {
 
   constructor() {
     super();
+    this.state = {
+      recipes: []
+    };
   };
 
   componentDidMount() {
@@ -16,27 +20,18 @@ class App extends Component {
 
   getRecipes() {
     axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/ext/guardian/list`)
-    .then((res) => { console.log(res.data.data); })  // new
+    .then((res) => { this.setState({ recipes: res.data }); })  // new
     .catch((err) => { console.log(err); })
   };
 
   render() {
     return (
       <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
+        <header>
+          <h1> Marmite </h1>
+          <h3> You Either Love It or Hate It. </h3>
         </header>
+        <Feed recipes={this.state.recipes}/>
       </div>
     );
   }
