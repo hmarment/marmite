@@ -3,17 +3,17 @@ import pytest
 from marmite.server.ext.client import Rested, Resources, Resource
 
 
-@pytest.fixture(scope='module')
+@pytest.fixture(scope="module")
 def setup_resource():
     """Set up a test resource."""
-    print('Setting up a test resource for external integrations')
-    return Resource(name='guardian')
+    print("Setting up a test resource for external integrations")
+    return Resource(name="guardian")
 
 
-@pytest.fixture(scope='module')
+@pytest.fixture(scope="module")
 def setup_client(setup_resource):
     """Set up a test client."""
-    print('Setting up a test client for external integrations')
+    print("Setting up a test client for external integrations")
     return Rested(resources=Resources([setup_resource]))
 
 
@@ -22,7 +22,7 @@ def test_client(setup_client):
 
 
 def test_client_resources(setup_client):
-    assert hasattr(setup_client, 'resources')
+    assert hasattr(setup_client, "resources")
     assert isinstance(setup_client.resources, Resources)
 
 

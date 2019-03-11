@@ -1,4 +1,3 @@
-
 class Resource:
     """Rest API resource."""
 

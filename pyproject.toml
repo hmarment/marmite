@@ -24,6 +24,7 @@ flake8 = "^3.7"
 pycodestyle = "^2.5"
 autoenv = "^1.0"
 pytest-cov = "^2.6"
+black = "^18.9b0"
 
 [build-system]
 requires = ["poetry>=0.12"]

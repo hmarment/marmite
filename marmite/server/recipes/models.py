@@ -19,8 +19,7 @@ class Recipe(db.Model):
     image = db.Column(db.VARCHAR)
     thumbnail = db.Column(db.VARCHAR)
     created_at = db.Column(db.DateTime, default=func.now())
-    last_modified_at = db.Column(db.DateTime,
-                                 onupdate=func.utc_timestamp())
+    last_modified_at = db.Column(db.DateTime, onupdate=func.utc_timestamp())
 
 
 class RecipeSchema(ma.ModelSchema):

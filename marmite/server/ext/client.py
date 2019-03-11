@@ -7,6 +7,7 @@ class Rested:
     """
     A basic HTTP Rest client for API Integrations
     """
+
     def __init__(self, resources=None):
 
         self.resources = resources
@@ -29,7 +30,6 @@ class Rested:
 
 
 class Resources:
-
     def __init__(self, resources=None):
         """
         :param resources: a list of Resource objects.
