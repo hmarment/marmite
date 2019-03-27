@@ -1,12 +1,14 @@
 import requests
 import datetime
+import json
 
 from urllib.parse import urlparse
+from sqlalchemy import func
 
-from marmite.server import app
-from marmite.server.ext import throttle
-from marmite.server.ext.guardian import BASE_URL, Endpoints
-from marmite.server.ext.guardian.models import GuardianRecipe
+from marmite.server import app, db
+from marmite.server.recipes.ext import throttle
+from marmite.server.recipes.ext.guardian import BASE_URL, Endpoints
+from marmite.server.recipes.ext.guardian.models import RecipeGuardian
 
 API_KEY = app.config.get("GUARDIAN_API_KEY")
 
@@ -32,33 +34,61 @@ def deserialize(recipe_json):
     """Deserialize Guardian API json response to a Recipe object."""
 
     id_ = recipe_json.get("id")
-    pillar_id = recipe_json.get("fields", {}).get("pillaId")
+    pillar_id = recipe_json.get("pillarId")
+    pillar_name = recipe_json.get("pillarName")
     section_id = recipe_json.get("sectionId")
-    publication_date = datetime.datetime.strptime(
+    section_name = recipe_json.get("sectionName")
+    web_publication_date = datetime.datetime.strptime(
         recipe_json.get("webPublicationDate"), "%Y-%m-%dT%H:%M:%SZ"
     )
+    web_title = recipe_json.get("webTitle")
+    web_url = recipe_json.get("webUrl")
+    api_url = recipe_json.get("apiUrl")
+    trail_text = recipe_json.get("fields", {}).get("trailText")
     headline = recipe_json.get("fields", {}).get("headline")
-    short_url = recipe_json.get("fields", {}).get("headline")
+    standfirst = recipe_json.get("fields", {}).get("standfirst")
+    byline = recipe_json.get("fields", {}).get("byline")
+    short_url = recipe_json.get("fields", {}).get("shortUrl")
+    production_office = recipe_json.get("fields", {}).get("productionOffice")
+    publication = recipe_json.get("fields", {}).get("publication")
+    lang = recipe_json.get("fields", {}).get("lang")
     last_modified = datetime.datetime.strptime(
         recipe_json.get("fields", {}).get("lastModified"), "%Y-%m-%dT%H:%M:%SZ"
     )
     main = recipe_json.get("fields", {}).get("main")
     thumbnail = recipe_json.get("fields", {}).get("thumbnail")
+    body = recipe_json.get("fields", {}).get("body")
     body_text = recipe_json.get("fields", {}).get("bodyText")
+    word_count = recipe_json.get("fields", {}).get("wordcount")
+    star_rating = recipe_json.get("fields", {}).get("starRating")
     tags = recipe_json.get("tags")
 
-    return GuardianRecipe(
-        id_,
-        pillar_id,
-        section_id,
-        publication_date,
-        headline,
-        short_url,
-        last_modified,
-        main,
-        thumbnail,
-        body_text,
-        tags,
+    return RecipeGuardian(
+        id=id_,
+        section_id=section_id,
+        section_name=section_name,
+        web_publication_date=web_publication_date,
+        web_title=web_title,
+        web_url=web_url,
+        api_url=api_url,
+        trail_text=trail_text,
+        headline=headline,
+        standfirst=standfirst,
+        body=body,
+        main=main,
+        production_office=production_office,
+        publication=publication,
+        lang=lang,
+        body_text=body_text,
+        last_modified=last_modified,
+        short_url=short_url,
+        thumbnail=thumbnail,
+        wordcount=int(word_count) if word_count else None,
+        byline=byline, 
+        star_rating=int(star_rating) if star_rating else None,
+        tags=tags,
+        pillar_name=pillar_name,
+        pillar_id=pillar_id,
     )
 
 
@@ -157,3 +187,20 @@ def list_new_recipes(last_published_date):
         recipe = get_recipe(result.get("id"))
         recipes.append(recipe)
     return recipes
+
+
+def most_recent_recipe():
+    """Return the most recent recipe for a given source"""
+    return db.session.query(func.max(RecipeGuardian.web_publication_date)).one()[0]
+
+
+def exists(recipe):
+    """
+    Return True if Guardian recipe already in database.
+
+    :param recipe: RecipeGuardian object (marmite.server.recipes.ext.guardian.RecipeGuardian)
+    """
+
+    return db.session.query(
+        db.exists().where(RecipeGuardian.id == recipe.id)
+    ).scalar()

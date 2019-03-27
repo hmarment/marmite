@@ -1,6 +1,6 @@
 import pytest
 
-from marmite.server.ext.client import Rested, Resources, Resource
+from marmite.server.recipes.ext.client import Rested, Resources, Resource
 
 
 @pytest.fixture(scope="module")

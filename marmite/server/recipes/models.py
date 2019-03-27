@@ -8,7 +8,7 @@ from marmite.server import db, ma
 
 
 class Recipe(db.Model):
-    __tablename__ = "recipe"
+    __tablename__ = "recipes"
 
     id = db.Column(db.Integer, primary_key=True)
     external_id = db.Column(db.VARCHAR)

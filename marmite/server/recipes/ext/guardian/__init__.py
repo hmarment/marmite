@@ -12,5 +12,5 @@ class Endpoints(Enum):
     GetRecipe = "{RECIPE_ID}?api-key={API_KEY}&show-fields=all&show-tags=all"
 
 
-from . import content
+from . import service
 from . import models

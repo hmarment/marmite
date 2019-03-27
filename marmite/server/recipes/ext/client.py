@@ -1,6 +1,6 @@
 import requests
 
-from marmite.server.ext.resource import Resource
+from marmite.server.recipes.ext.resource import Resource
 
 
 class Rested:
