@@ -19,6 +19,7 @@ flask-script = "^2.0"
 requests = "^2.21"
 django = "^2.2"
 djangorestframework = "^3.9"
+pytest-django = "^3.4"
 
 [tool.poetry.dev-dependencies]
 pytest = "^3.0"

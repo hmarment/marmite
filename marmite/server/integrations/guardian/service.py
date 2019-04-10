@@ -5,7 +5,7 @@ import pytz
 
 from urllib.parse import urlparse
 
-from ..utils import throttle
+from integrations.utils import throttle
 from . import BASE_URL, Endpoints
 from .apps import GuardianConfig
 from .models import RecipeGuardian
@@ -196,7 +196,8 @@ def list_new_recipes(last_published_date):
 def most_recent_recipe():
     """Return the most recent recipe for a given source"""
     most_recent = RecipeGuardian.objects.latest('web_publication_date').web_publication_date
-    return RecipeGuardian.objects.filter(web_publication_date=most_recent)[0]
+    print(most_recent)
+    return RecipeGuardian.objects.filter(web_publication_date=most_recent).first()
 
 
 def exists(recipe):
