@@ -10,7 +10,3 @@ class Endpoints(Enum):
         "&order-by={order_by}&show-tags=all"
     )
     GetRecipe = "{RECIPE_ID}?api-key={API_KEY}&show-fields=all&show-tags=all"
-
-
-from . import service
-from . import models

@@ -1,16 +1,20 @@
 import requests
 import datetime
-import json
+import logging
+import pytz
 
 from urllib.parse import urlparse
-from sqlalchemy import func
 
-from marmite.server import app, db
-from marmite.server.recipes.ext import throttle
-from marmite.server.recipes.ext.guardian import BASE_URL, Endpoints
-from marmite.server.recipes.ext.guardian.models import RecipeGuardian
+from integrations.utils import throttle
+from . import BASE_URL, Endpoints
+from .apps import GuardianConfig
+from .models import RecipeGuardian
 
-API_KEY = app.config.get("GUARDIAN_API_KEY")
+API_KEY = GuardianConfig.API_KEY
+
+logFormatter = "%(asctime)s - %(levelname)s - %(module)s:%(funcName)s " "- %(message)s"
+logging.basicConfig(format=logFormatter, level=logging.WARNING)
+logger = logging.getLogger(__name__)
 
 
 @throttle
@@ -21,7 +25,7 @@ def get_json(url, http_method="GET"):
             try:
                 response.raise_for_status()
             except requests.exceptions.HTTPError:
-                app.logger.error(
+                logger.error(
                     "{} - {} - {} {}".format(
                         response.status_code, response.reason, http_method, url
                     )
@@ -38,9 +42,9 @@ def deserialize(recipe_json):
     pillar_name = recipe_json.get("pillarName")
     section_id = recipe_json.get("sectionId")
     section_name = recipe_json.get("sectionName")
-    web_publication_date = datetime.datetime.strptime(
+    web_publication_date = pytz.utc.localize(datetime.datetime.strptime(
         recipe_json.get("webPublicationDate"), "%Y-%m-%dT%H:%M:%SZ"
-    )
+    ))
     web_title = recipe_json.get("webTitle")
     web_url = recipe_json.get("webUrl")
     api_url = recipe_json.get("apiUrl")
@@ -52,9 +56,9 @@ def deserialize(recipe_json):
     production_office = recipe_json.get("fields", {}).get("productionOffice")
     publication = recipe_json.get("fields", {}).get("publication")
     lang = recipe_json.get("fields", {}).get("lang")
-    last_modified = datetime.datetime.strptime(
+    last_modified = pytz.utc.localize(datetime.datetime.strptime(
         recipe_json.get("fields", {}).get("lastModified"), "%Y-%m-%dT%H:%M:%SZ"
-    )
+    ))
     main = recipe_json.get("fields", {}).get("main")
     thumbnail = recipe_json.get("fields", {}).get("thumbnail")
     body = recipe_json.get("fields", {}).get("body")
@@ -125,7 +129,7 @@ def list_recipes(max_recipes=None, from_date=None):
     results = list()
     page_number = 1
 
-    app.logger.debug("Fetching first page of recipes")
+    logger.debug("Fetching first page of recipes")
     first_page = get_page(page_number, from_date=from_date)
     last_page_number = first_page.get("response", {}).get("pages")
 
@@ -136,7 +140,7 @@ def list_recipes(max_recipes=None, from_date=None):
         if max_recipes and len(results) >= max_recipes:
             continue
 
-        app.logger.debug("Fetching page {} / {}".format(page, last_page_number))
+        logger.debug("Fetching page {} / {}".format(page, last_page_number))
         next_page = get_page(page, from_date=from_date)
         results += next_page.get("response", {}).get("results", [])
 
@@ -172,7 +176,7 @@ def list_new_recipes(last_published_date):
     results = list()
     page_number = 1
 
-    app.logger.debug("Fetching first page of recipes")
+    logger.debug("Fetching first page of recipes")
     first_page = get_page(page_number)
     page_results = first_page.get("response", {}).get("results", [])
 
@@ -191,16 +195,15 @@ def list_new_recipes(last_published_date):
 
 def most_recent_recipe():
     """Return the most recent recipe for a given source"""
-    return db.session.query(func.max(RecipeGuardian.web_publication_date)).one()[0]
+    most_recent = RecipeGuardian.objects.latest('web_publication_date').web_publication_date
+    print(most_recent)
+    return RecipeGuardian.objects.filter(web_publication_date=most_recent).first()
 
 
 def exists(recipe):
     """
     Return True if Guardian recipe already in database.
 
-    :param recipe: RecipeGuardian object (marmite.server.recipes.ext.guardian.RecipeGuardian)
+    :param recipe: RecipeGuardian object
     """
-
-    return db.session.query(
-        db.exists().where(RecipeGuardian.id == recipe.id)
-    ).scalar()
+    return RecipeGuardian.objects.filter(id=recipe.id).exists()
