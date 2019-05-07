@@ -1,6 +1,5 @@
 from django.db import models
 from django.contrib.postgres.fields import JSONField
-from rest_framework import serializers
 
 
 class Ingredient(models.Model):
@@ -15,12 +14,6 @@ class Ingredient(models.Model):
     allergies = JSONField(blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     last_updated_at = models.DateTimeField(auto_now=True)
-
-
-class IngredientSerializer(serializers.HyperlinkedModelSerializer):
-    class Meta:
-        model = Ingredient
-        fields = ('id', 'name', 'plural_name', 'type', 'tags', 'allergies', 'created_at', 'last_updated_at')
 
 
 class Recipe(models.Model):
@@ -42,12 +35,6 @@ class Recipe(models.Model):
     # owner = models.IntegerField(fore)
 
 
-class RecipeSerializer(serializers.HyperlinkedModelSerializer):
-    class Meta:
-        model = Recipe
-        fields = ('id', 'name', 'short_description', 'type', 'source', 'preparation_time', 'cooking_time', 'instructions', 'image', 'created_at', 'last_updated_at')
-
-
 class Unit(models.Model):
 
     class Meta:
@@ -61,12 +48,6 @@ class Unit(models.Model):
     last_updated_at = models.DateTimeField(auto_now=True)
 
 
-class UnitSerializer(serializers.HyperlinkedModelSerializer):
-    class Meta:
-        model = Unit
-        fields = ('id', 'name', 'plural_name', 'symbol', 'unit_system', 'created', 'last_updated_at')
-
-
 class RecipeIngredient(models.Model):
 
     class Meta:
@@ -78,9 +59,3 @@ class RecipeIngredient(models.Model):
     unit = models.ForeignKey(Unit, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
     last_updated_at = models.DateTimeField(auto_now=True)
-
-
-class RecipeIngredientSerializer(serializers.HyperlinkedModelSerializer):
-    class Meta:
-        model = RecipeIngredient
-        fields = ('id', 'recipe', 'ingredient', 'quantity', 'unit', 'created', 'last_updated_at')

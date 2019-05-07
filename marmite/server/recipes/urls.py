@@ -1,12 +1,9 @@
-from django.urls import include, path
-from rest_framework import routers
+from django.urls import path
 
 from . import views
 
-router = routers.DefaultRouter()
-router.register(r'recipes/list', views.ListRecipesViewSet)
-
 urlpatterns = [
-    path('', include(router.urls)),
+    path('', views.recipes_view, name='recipes_view'),
+    path('<int:recipe_id>', views.recipe_detail_view, name='recipe_detail_view')
     # path('guardian/sync/<int:recipe_count>', views.sync_n_guardian_recipes, name='sync_n_guardian_recipes')
 ]
