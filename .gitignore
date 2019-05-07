@@ -1,6 +1,9 @@
 # OS
 .DS_Store
 
+# Dev Environment
+.vscode
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
