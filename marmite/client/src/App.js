@@ -22,7 +22,7 @@ class App extends Component {
   };
 
   getRecipes() {
-    axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/ext/guardian/list`)
+    axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/recipes/`)
     .then((res) => { this.setState({ recipes: res.data }); })  // new
     .catch((err) => { console.log(err); })
   };
