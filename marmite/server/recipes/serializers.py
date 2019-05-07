@@ -25,7 +25,7 @@ class IngredientSerializer(serializers.Serializer):
 
 
 class RecipeSerializer(serializers.Serializer):
-    
+
     id = serializers.IntegerField(read_only=True)
     name = serializers.CharField(max_length=1000)
     short_description = serializers.CharField()
@@ -40,7 +40,7 @@ class RecipeSerializer(serializers.Serializer):
 
     def create(self, validated_data):
         return Recipe.objects.create(**validated_data)
-    
+
     def update(self, instance, validated_data):
         for key, value in validated_data.items():
             setattr(instance, key, value)

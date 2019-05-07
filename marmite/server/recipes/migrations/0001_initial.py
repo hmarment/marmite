@@ -9,72 +9,108 @@ class Migration(migrations.Migration):
 
     initial = True
 
-    dependencies = [
-    ]
+    dependencies = []
 
     operations = [
         migrations.CreateModel(
-            name='Ingredient',
+            name="Ingredient",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=1000)),
-                ('type', models.CharField(max_length=1000)),
-                ('tags', django.contrib.postgres.fields.jsonb.JSONField()),
-                ('allergies', django.contrib.postgres.fields.jsonb.JSONField()),
-                ('created_at', models.DateTimeField(auto_now_add=True)),
-                ('last_updated_at', models.DateTimeField(auto_now=True)),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("name", models.CharField(max_length=1000)),
+                ("type", models.CharField(max_length=1000)),
+                ("tags", django.contrib.postgres.fields.jsonb.JSONField()),
+                ("allergies", django.contrib.postgres.fields.jsonb.JSONField()),
+                ("created_at", models.DateTimeField(auto_now_add=True)),
+                ("last_updated_at", models.DateTimeField(auto_now=True)),
             ],
-            options={
-                'db_table': 'ingredients',
-            },
+            options={"db_table": "ingredients"},
         ),
         migrations.CreateModel(
-            name='Recipe',
+            name="Recipe",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=1000)),
-                ('short_description', models.TextField()),
-                ('type', models.CharField(max_length=1000)),
-                ('source', models.CharField(max_length=1000)),
-                ('preparation_time', models.PositiveIntegerField()),
-                ('cooking_time', models.PositiveIntegerField()),
-                ('instructions', models.TextField()),
-                ('image', models.URLField()),
-                ('created_at', models.DateTimeField(auto_now_add=True)),
-                ('last_updated_at', models.DateTimeField(auto_now=True)),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("name", models.CharField(max_length=1000)),
+                ("short_description", models.TextField()),
+                ("type", models.CharField(max_length=1000)),
+                ("source", models.CharField(max_length=1000)),
+                ("preparation_time", models.PositiveIntegerField()),
+                ("cooking_time", models.PositiveIntegerField()),
+                ("instructions", models.TextField()),
+                ("image", models.URLField()),
+                ("created_at", models.DateTimeField(auto_now_add=True)),
+                ("last_updated_at", models.DateTimeField(auto_now=True)),
             ],
-            options={
-                'db_table': 'recipes',
-            },
+            options={"db_table": "recipes"},
         ),
         migrations.CreateModel(
-            name='Unit',
+            name="Unit",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=1000)),
-                ('symbol', models.CharField(max_length=5)),
-                ('unit_system', models.CharField(max_length=1000)),
-                ('created_at', models.DateTimeField(auto_now_add=True)),
-                ('last_updated_at', models.DateTimeField(auto_now=True)),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("name", models.CharField(max_length=1000)),
+                ("symbol", models.CharField(max_length=5)),
+                ("unit_system", models.CharField(max_length=1000)),
+                ("created_at", models.DateTimeField(auto_now_add=True)),
+                ("last_updated_at", models.DateTimeField(auto_now=True)),
             ],
-            options={
-                'db_table': 'units',
-            },
+            options={"db_table": "units"},
         ),
         migrations.CreateModel(
-            name='RecipeIngredient',
+            name="RecipeIngredient",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('ingredient', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='recipes.Ingredient')),
-                ('recipe', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='recipes.Recipe')),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "ingredient",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to="recipes.Ingredient",
+                    ),
+                ),
+                (
+                    "recipe",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE, to="recipes.Recipe"
+                    ),
+                ),
             ],
-            options={
-                'db_table': 'recipe_ingredients',
-            },
+            options={"db_table": "recipe_ingredients"},
         ),
         migrations.AddField(
-            model_name='recipe',
-            name='ingredients',
-            field=models.ManyToManyField(through='recipes.RecipeIngredient', to='recipes.Ingredient'),
+            model_name="recipe",
+            name="ingredients",
+            field=models.ManyToManyField(
+                through="recipes.RecipeIngredient", to="recipes.Ingredient"
+            ),
         ),
     ]

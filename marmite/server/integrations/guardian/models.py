@@ -4,9 +4,8 @@ from rest_framework import serializers
 
 
 class RecipeGuardian(models.Model):
-
     class Meta:
-        db_table = 'recipes_guardian'
+        db_table = "recipes_guardian"
 
     id = models.CharField(max_length=1000, primary_key=True)
     section_id = models.CharField(max_length=255)
@@ -40,4 +39,32 @@ class RecipeGuardian(models.Model):
 class RecipeGuardianSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = RecipeGuardian
-        fields = ('id', 'section_id', 'section_name', 'web_publication_date', 'web_title', 'web_url', 'api_url', 'trail_text', 'headline', 'standfirst', 'body', 'main', 'production_office', 'publication', 'lang', 'body_text', 'last_modified', 'short_url', 'thumbnail', 'wordcount', 'byline', 'star_rating', 'tags', 'pillar_name', 'pillar_id', 'created_at', 'last_updated_at')
+        fields = (
+            "id",
+            "section_id",
+            "section_name",
+            "web_publication_date",
+            "web_title",
+            "web_url",
+            "api_url",
+            "trail_text",
+            "headline",
+            "standfirst",
+            "body",
+            "main",
+            "production_office",
+            "publication",
+            "lang",
+            "body_text",
+            "last_modified",
+            "short_url",
+            "thumbnail",
+            "wordcount",
+            "byline",
+            "star_rating",
+            "tags",
+            "pillar_name",
+            "pillar_id",
+            "created_at",
+            "last_updated_at",
+        )

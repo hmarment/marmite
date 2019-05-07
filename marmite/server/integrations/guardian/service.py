@@ -42,9 +42,11 @@ def deserialize(recipe_json):
     pillar_name = recipe_json.get("pillarName")
     section_id = recipe_json.get("sectionId")
     section_name = recipe_json.get("sectionName")
-    web_publication_date = pytz.utc.localize(datetime.datetime.strptime(
-        recipe_json.get("webPublicationDate"), "%Y-%m-%dT%H:%M:%SZ"
-    ))
+    web_publication_date = pytz.utc.localize(
+        datetime.datetime.strptime(
+            recipe_json.get("webPublicationDate"), "%Y-%m-%dT%H:%M:%SZ"
+        )
+    )
     web_title = recipe_json.get("webTitle")
     web_url = recipe_json.get("webUrl")
     api_url = recipe_json.get("apiUrl")
@@ -56,9 +58,11 @@ def deserialize(recipe_json):
     production_office = recipe_json.get("fields", {}).get("productionOffice")
     publication = recipe_json.get("fields", {}).get("publication")
     lang = recipe_json.get("fields", {}).get("lang")
-    last_modified = pytz.utc.localize(datetime.datetime.strptime(
-        recipe_json.get("fields", {}).get("lastModified"), "%Y-%m-%dT%H:%M:%SZ"
-    ))
+    last_modified = pytz.utc.localize(
+        datetime.datetime.strptime(
+            recipe_json.get("fields", {}).get("lastModified"), "%Y-%m-%dT%H:%M:%SZ"
+        )
+    )
     main = recipe_json.get("fields", {}).get("main")
     thumbnail = recipe_json.get("fields", {}).get("thumbnail")
     body = recipe_json.get("fields", {}).get("body")
@@ -88,7 +92,7 @@ def deserialize(recipe_json):
         short_url=short_url,
         thumbnail=thumbnail,
         wordcount=int(word_count) if word_count else None,
-        byline=byline, 
+        byline=byline,
         star_rating=int(star_rating) if star_rating else None,
         tags=tags,
         pillar_name=pillar_name,
@@ -108,14 +112,15 @@ def get_recipe(recipe_id):
     return deserialize(response.get("response", {}).get("content"))
 
 
-def get_page(page_number, page_size=50, order_by='oldest', from_date=None):
+def get_page(page_number, page_size=50, order_by="oldest", from_date=None):
     """Fetch a page of recipes from Guardian content API."""
-    
+
     url_str = BASE_URL + Endpoints.ListRecipes.value.format(
-        API_KEY=API_KEY, page=page_number, page_size=page_size, order_by=order_by)
+        API_KEY=API_KEY, page=page_number, page_size=page_size, order_by=order_by
+    )
 
     if from_date:
-        url_str += '&from-date={}'.format(from_date.strftime('%Y-%m-%d'))
+        url_str += "&from-date={}".format(from_date.strftime("%Y-%m-%d"))
     url = urlparse(url_str).geturl()
 
     return get_json(url)
@@ -195,7 +200,9 @@ def list_new_recipes(last_published_date):
 
 def most_recent_recipe():
     """Return the most recent recipe for a given source"""
-    most_recent = RecipeGuardian.objects.latest('web_publication_date').web_publication_date
+    most_recent = RecipeGuardian.objects.latest(
+        "web_publication_date"
+    ).web_publication_date
     print(most_recent)
     return RecipeGuardian.objects.filter(web_publication_date=most_recent).first()
 

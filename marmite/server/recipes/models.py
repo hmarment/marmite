@@ -3,9 +3,8 @@ from django.contrib.postgres.fields import JSONField
 
 
 class Ingredient(models.Model):
-
     class Meta:
-        db_table = 'ingredients'
+        db_table = "ingredients"
 
     name = models.CharField(max_length=1000)
     plural_name = models.CharField(max_length=1000)
@@ -17,14 +16,13 @@ class Ingredient(models.Model):
 
 
 class Recipe(models.Model):
-
     class Meta:
-        db_table = 'recipes'
+        db_table = "recipes"
 
     name = models.CharField(max_length=1000)
     short_description = models.TextField(blank=True)
     type = models.CharField(max_length=1000)
-    ingredients = models.ManyToManyField(Ingredient, through='RecipeIngredient')
+    ingredients = models.ManyToManyField(Ingredient, through="RecipeIngredient")
     source = models.CharField(max_length=1000)
     preparation_time = models.PositiveIntegerField()  # in seconds
     cooking_time = models.PositiveIntegerField()  # in seconds
@@ -36,9 +34,8 @@ class Recipe(models.Model):
 
 
 class Unit(models.Model):
-
     class Meta:
-        db_table = 'units'
+        db_table = "units"
 
     name = models.CharField(max_length=1000)
     plural_name = models.CharField(max_length=1000)
@@ -49,9 +46,8 @@ class Unit(models.Model):
 
 
 class RecipeIngredient(models.Model):
-
     class Meta:
-        db_table = 'recipe_ingredients'
+        db_table = "recipe_ingredients"
 
     recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE)
     ingredient = models.ForeignKey(Ingredient, on_delete=models.CASCADE)

@@ -6,29 +6,25 @@ from django.db import migrations, models
 
 class Migration(migrations.Migration):
 
-    dependencies = [
-        ('recipes', '0001_initial'),
-    ]
+    dependencies = [("recipes", "0001_initial")]
 
     operations = [
         migrations.AlterField(
-            model_name='ingredient',
-            name='allergies',
+            model_name="ingredient",
+            name="allergies",
             field=django.contrib.postgres.fields.jsonb.JSONField(blank=True, null=True),
         ),
         migrations.AlterField(
-            model_name='ingredient',
-            name='tags',
+            model_name="ingredient",
+            name="tags",
             field=django.contrib.postgres.fields.jsonb.JSONField(blank=True, null=True),
         ),
         migrations.AlterField(
-            model_name='recipe',
-            name='image',
-            field=models.URLField(blank=True),
+            model_name="recipe", name="image", field=models.URLField(blank=True)
         ),
         migrations.AlterField(
-            model_name='recipe',
-            name='short_description',
+            model_name="recipe",
+            name="short_description",
             field=models.TextField(blank=True),
         ),
     ]

@@ -34,7 +34,9 @@ def sync_n_guardian_recipes(request, recipe_count):
 
     most_recent_recipe = service.most_recent_recipe()
 
-    recipes = service.list_recipes(max_recipes=recipe_count, from_date=most_recent_recipe.web_publication_date)
+    recipes = service.list_recipes(
+        max_recipes=recipe_count, from_date=most_recent_recipe.web_publication_date
+    )
     logger.info("Writing {} recipes to DB".format(len(recipes)))
     for recipe in recipes:
         if not service.exists(recipe):
@@ -48,5 +50,6 @@ class ListRecipesViewSet(viewsets.ModelViewSet):
     """
     API endpoint to list recipes.
     """
-    queryset = RecipeGuardian.objects.all().order_by('-web_publication_date')
+
+    queryset = RecipeGuardian.objects.all().order_by("-web_publication_date")
     serializer_class = RecipeGuardianSerializer

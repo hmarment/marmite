@@ -4,5 +4,5 @@ from django.apps import AppConfig
 
 
 class GuardianConfig(AppConfig):
-    name = 'guardian'
+    name = "guardian"
     API_KEY = os.environ["GUARDIAN_API_KEY"]

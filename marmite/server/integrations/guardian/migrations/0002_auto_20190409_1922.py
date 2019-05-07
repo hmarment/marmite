@@ -5,13 +5,8 @@ from django.db import migrations
 
 class Migration(migrations.Migration):
 
-    dependencies = [
-        ('guardian', '0001_initial'),
-    ]
+    dependencies = [("guardian", "0001_initial")]
 
     operations = [
-        migrations.AlterModelTable(
-            name='recipeguardian',
-            table='recipes_guardian',
-        ),
+        migrations.AlterModelTable(name="recipeguardian", table="recipes_guardian")
     ]

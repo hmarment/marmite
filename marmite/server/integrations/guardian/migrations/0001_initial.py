@@ -8,40 +8,44 @@ class Migration(migrations.Migration):
 
     initial = True
 
-    dependencies = [
-    ]
+    dependencies = []
 
     operations = [
         migrations.CreateModel(
-            name='RecipeGuardian',
+            name="RecipeGuardian",
             fields=[
-                ('id', models.CharField(max_length=1000, primary_key=True, serialize=False)),
-                ('section_id', models.CharField(max_length=255)),
-                ('section_name', models.CharField(max_length=255)),
-                ('web_publication_date', models.DateTimeField()),
-                ('web_title', models.CharField(max_length=1000)),
-                ('web_url', models.CharField(max_length=1000)),
-                ('api_url', models.CharField(max_length=1000)),
-                ('trail_text', models.CharField(max_length=1000)),
-                ('headline', models.CharField(max_length=1000)),
-                ('standfirst', models.TextField()),
-                ('body', models.TextField()),
-                ('main', models.TextField()),
-                ('production_office', models.CharField(max_length=255)),
-                ('publication', models.CharField(max_length=255)),
-                ('lang', models.CharField(max_length=255)),
-                ('body_text', models.TextField()),
-                ('last_modified', models.DateTimeField()),
-                ('short_url', models.CharField(max_length=1000)),
-                ('thumbnail', models.CharField(max_length=1000)),
-                ('wordcount', models.BigIntegerField()),
-                ('byline', models.CharField(max_length=1000)),
-                ('star_rating', models.BigIntegerField()),
-                ('tags', django.contrib.postgres.fields.jsonb.JSONField()),
-                ('pillar_name', models.CharField(max_length=255)),
-                ('pillar_id', models.CharField(max_length=255)),
-                ('created_at', models.DateTimeField(auto_now_add=True)),
-                ('last_updated_at', models.DateTimeField(auto_now=True)),
+                (
+                    "id",
+                    models.CharField(
+                        max_length=1000, primary_key=True, serialize=False
+                    ),
+                ),
+                ("section_id", models.CharField(max_length=255)),
+                ("section_name", models.CharField(max_length=255)),
+                ("web_publication_date", models.DateTimeField()),
+                ("web_title", models.CharField(max_length=1000)),
+                ("web_url", models.CharField(max_length=1000)),
+                ("api_url", models.CharField(max_length=1000)),
+                ("trail_text", models.CharField(max_length=1000)),
+                ("headline", models.CharField(max_length=1000)),
+                ("standfirst", models.TextField()),
+                ("body", models.TextField()),
+                ("main", models.TextField()),
+                ("production_office", models.CharField(max_length=255)),
+                ("publication", models.CharField(max_length=255)),
+                ("lang", models.CharField(max_length=255)),
+                ("body_text", models.TextField()),
+                ("last_modified", models.DateTimeField()),
+                ("short_url", models.CharField(max_length=1000)),
+                ("thumbnail", models.CharField(max_length=1000)),
+                ("wordcount", models.BigIntegerField()),
+                ("byline", models.CharField(max_length=1000)),
+                ("star_rating", models.BigIntegerField()),
+                ("tags", django.contrib.postgres.fields.jsonb.JSONField()),
+                ("pillar_name", models.CharField(max_length=255)),
+                ("pillar_id", models.CharField(max_length=255)),
+                ("created_at", models.DateTimeField(auto_now_add=True)),
+                ("last_updated_at", models.DateTimeField(auto_now=True)),
             ],
-        ),
+        )
     ]

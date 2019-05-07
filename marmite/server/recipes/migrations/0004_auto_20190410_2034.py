@@ -6,31 +6,31 @@ import django.utils.timezone
 
 class Migration(migrations.Migration):
 
-    dependencies = [
-        ('recipes', '0003_auto_20190410_2030'),
-    ]
+    dependencies = [("recipes", "0003_auto_20190410_2030")]
 
     operations = [
         migrations.AddField(
-            model_name='ingredient',
-            name='plural_name',
+            model_name="ingredient",
+            name="plural_name",
             field=models.CharField(default=1, max_length=1000),
             preserve_default=False,
         ),
         migrations.AddField(
-            model_name='recipeingredient',
-            name='created_at',
-            field=models.DateTimeField(auto_now_add=True, default=django.utils.timezone.now),
+            model_name="recipeingredient",
+            name="created_at",
+            field=models.DateTimeField(
+                auto_now_add=True, default=django.utils.timezone.now
+            ),
             preserve_default=False,
         ),
         migrations.AddField(
-            model_name='recipeingredient',
-            name='last_updated_at',
+            model_name="recipeingredient",
+            name="last_updated_at",
             field=models.DateTimeField(auto_now=True),
         ),
         migrations.AddField(
-            model_name='unit',
-            name='plural_name',
+            model_name="unit",
+            name="plural_name",
             field=models.CharField(default=1, max_length=1000),
             preserve_default=False,
         ),
