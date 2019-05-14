@@ -8,7 +8,7 @@ import Feed from './components/Feed';
 
 import axios from 'axios';
 
-class App extends Component {
+class App extends React.Component {
 
   constructor() {
     super();
